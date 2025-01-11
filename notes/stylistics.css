@@ -1,0 +1,143 @@
+html, body{
+    padding: 0;
+    margin: 0;
+    background-color: #e0cfab;
+}
+
+
+
+h1,h2,h3{
+    margin: 0;
+}
+
+
+
+p{
+    margin: 0;
+    font-family: "HKGrotesk";
+  
+   
+}
+
+a{
+    font-family: "HKGrotesk";
+    text-decoration: none;
+    
+}
+
+button{
+    cursor: pointer;
+}
+
+textarea{
+   
+    border: none;
+    resize: none;
+    caret-color: #ff3503;
+}
+
+textarea:focus{
+    outline: none;
+}
+
+
+.title_stylings{
+    width: 100%;
+    font-size: 24px;
+}
+
+.content_stylings{
+    width: 100%;
+    padding: .25rem .5rem;
+    font-size: 16px;
+    line-height: 1.45;
+
+}
+
+.note_section{
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    /*padding: 1rem;*/
+    grid-gap: 1rem;
+   
+
+   
+}
+
+.note{
+    height: 100vh;
+    width: 100%;
+    position: absolute;
+    top: 0;
+   
+   
+}
+
+.note_view{
+    cursor: pointer;
+    height: 100%;
+    position: relative;
+}
+
+@keyframes note_anim {
+    0%{
+        transform: translateY(25px);
+    }
+
+    100%{
+        transform: translateY(0px);
+    }
+}
+
+
+.title_section{
+    display: flex;
+    border-bottom: 1px solid;
+}
+
+.exit_btn_active{
+
+}
+
+.exit_btn_hidden{
+    display: none;
+}
+
+.content_view{
+    height: auto;
+}
+
+.key_value_section{
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+   
+}
+
+.key{
+    font-size: 24px;
+}
+
+.note_container{
+ display: grid;
+ width: fit-content;
+ padding: 1rem; 
+ grid-template-columns: repeat(1, 1fr);
+ grid-template-rows: repeat(1, 1fr);
+}
+
+
+
+
+.note_data_input_hidden{
+    display: none;
+}
+
+
+.note_data_input_active{
+    display: block;
+}
+
+
+.selected_btn_wrap{
+    grid-column: span 2;
+}
