@@ -44,11 +44,13 @@ textarea:focus{
 .title_stylings{
     width: 100%;
     font-size: 24px;
+    font-weight: 600;
+  /*  border-bottom: 1px solid #d1d1d1;*/
 }
 
 .content_stylings{
     width: 100%;
-    padding: .25rem .5rem;
+   /* padding: .25rem .5rem;*/
     font-size: 16px;
     line-height: 1.45;
 
@@ -109,20 +111,38 @@ textarea:focus{
 
 .key_value_section{
     display: grid;
+    margin: 1rem;
+    
     grid-template-columns: repeat(1, 1fr);
    
 }
 
 .key{
     font-size: 24px;
+    font-weight: 600;
+    font-family: auto;
+    padding: .75rem .75rem 0rem .75rem;
+}
+
+.value{
+    padding: 0rem .75rem .75rem .75rem;
 }
 
 .note_container{
+    caret-color: #ff3503;
+ min-height: 250px;
+ max-height: 100%;
+ margin: 1rem;
+ padding: .75rem;
+ background-color: #fff;
+ word-wrap: break-word;
+ word-break: break-all;
+ /* 
  display: grid;
- width: fit-content;
- padding: 1rem; 
  grid-template-columns: repeat(1, 1fr);
  grid-template-rows: repeat(1, 1fr);
+ 
+ */
 }
 
 
@@ -139,5 +159,42 @@ textarea:focus{
 
 
 .selected_btn_wrap{
-    grid-column: span 2;
+    display: grid; 
+   
+}
+
+.active_btn{
+ 
+    fill: none;
+    stroke: #000;
+}
+
+.active_class{
+    background-color: #8f8e8b;
+}
+
+
+
+@media (min-width: 768px) {
+    .note_section{
+        grid-template-columns: repeat(2, 1fr);  
+       
+    }
+}
+
+
+@media (min-width: 1024px) {
+    .note_section{
+        grid-template-columns: repeat(3, 1fr);  
+       
+    }
+}
+
+
+
+@media (min-width: 1440px) {
+    .note_section{
+        grid-template-columns: repeat(4, 1fr);  
+       
+    }
 }

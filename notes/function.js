@@ -93,6 +93,7 @@ function createNote(){
 let key = document.querySelector(".key");
 let value = document.querySelector(".value");
 
+
 let addToLocalBtn = document.querySelector(".add_to_local_btn");
 
 console.log(localStorage);
@@ -125,12 +126,30 @@ function retrieveNotes(){
         noteSelected.classList.add("note_data_input_hidden");
     
       let noteDataTitle = document.createElement("p");
+      noteDataTitle.classList.add("title_stylings");
         noteDataTitle.innerHTML = noteData.title;
     
-       let noteDataBody = document.createElement("p");
-        noteDataBody.innerHTML = noteData.body;
+       
+
+      
+
+       // let noteDataBodyWrap = document.createElement("div");
+        
+        
+         let noteDataBody = document.createElement("div");
+             noteDataBody.classList.add("content_stylings");
+             noteDataBody.innerHTML = noteData.htmlMarkup;
+
+    
+      
+
+       // noteDataBody.replaceWith(noteData.htmlMarkup);
+      
+      // noteDataBodyWrap.append(noteDataBody);
+      // noteDataBody.outerHTML = noteData.htmlMarkup;
     
     
+      /* 
        let noteDataTitleInput = document.createElement("input");
         //noteDataTitleInput.textContent = notes.title;
         noteDataTitleInput.type = "text";
@@ -140,101 +159,216 @@ function retrieveNotes(){
        // noteDataBodyInput.textContent = notes.body;
         noteDataBodyInput.type = "text";
         noteDataBodyInput.classList.add("note_data_input_hidden");
-    
+    */
        let noteDataEdit = document.createElement("button");
         noteDataEdit.classList.add("edit_btn");
         noteDataEdit.textContent = "Edit";
     
        let noteDeleteBtn = document.createElement("button");
         noteDeleteBtn.textContent = 'delete';
-        noteDeleteBtn.classList.add("note_data_input_hidden");
+       
+
+
+        let toolBar = document.createElement('div');
+            toolBar.classList.add("toolbar");
+         toolBar.classList.add('note_data_input_hidden');
+  
+  
+        let bold = document.createElement('button');
+            bold.textContent= "𝐁";
+          
+  
+        let italic = document.createElement('button');    
+            italic.textContent= "I";
+
+        let underline = document.createElement('button');       
+            underline.textContent= "U";
+
+        let strikethrough = document.createElement('button');
+            strikethrough.textContent= "S";
+  
+      toolBar.append(bold, italic, underline, strikethrough);
+  
+
     
       let noteDataSave = document.createElement("button");
         noteDataSave.classList.add("note_data_input_hidden");
         noteDataSave.textContent = "Save";
     
-     noteContainer.append(noteSelected, noteDataTitle, noteDataBody, noteDataTitleInput, noteDataBodyInput, noteDataEdit, noteDeleteBtn, noteDataSave);
+     noteContainer.append(noteSelected, noteDataTitle, noteDataBody, toolBar, noteDataEdit, noteDeleteBtn, noteDataSave);
     
     noteSection.append(noteContainer);
 
        
       
     function edit(){ 
-
+      noteDataBody.focus();
+      /*
+      let storedTitleValue =  noteDataTitle.innerHTML;
+      let storedBodyValue =  noteDataBody.innerHTML;
      
-       
-        let storedTitleValue =  noteDataTitle.innerHTML;
-        let storedBodyValue =  noteDataBody.innerHTML;
-    
-        noteDataTitle.classList.add("note_data_input_hidden");
-        noteDataBody.classList.add("note_data_input_hidden");
-    
-    
-        noteDataTitleInput.classList.remove("note_data_input_hidden");
-        noteDataTitleInput.value = storedTitleValue;
-    
-    
-        noteDataBodyInput.classList.remove("note_data_input_hidden");
-        noteDataBodyInput.value = storedBodyValue;
-    
-        noteDataSave.classList.add("note_data_input_active");
-       
-    
-        noteDataEdit.classList.add("note_data_input_hidden");
-         
-         console.log(storedTitleValue);
-         console.log(storedBodyValue);
-     
-     
-       
-    }noteDataEdit.addEventListener('click', edit);
+      let findNoteId= notes.id; 
+  
+      const testArrayIndex = testArray.findIndex(notes => notes.id === findNoteId);
+  
     
   
+      if (testArrayIndex !== findNoteId) {
+         
+          testArray[testArrayIndex].title = noteDataTitle.textContent;
+          testArray[testArrayIndex].body = noteDataBody.textContent;
+         // console.log("todo changed!"); 
+      }
+        */
+     
+
+      /* possible changes to edit function.
+
+        change edit() function from stored input value to itself(maybe).
+
+        maybe store the value still but don't display it in the DOM.
+      */
+
+        toolBar.classList.remove('note_data_input_hidden');
         
+
+      let storedTitleValue = noteDataTitle.innerHTML;
+      let storedBodyValue = noteDataBody.innerHTML;
+  
+     // noteDataTitle.classList.add("note_data_input_hidden");
+     // noteDataBody.classList.add("note_data_input_hidden");
+  
+    noteDataTitle.setAttribute("contenteditable", "true");
+    noteDataBody.setAttribute("contenteditable", "true");
+
+
+
+     // noteDataTitleInput.classList.remove("note_data_input_hidden");
+      noteDataTitle.value = storedTitleValue;
+  
+  
+     // noteDataBodyInput.classList.remove("note_data_input_hidden");
+      noteDataBody.value = storedBodyValue;
+  
+      noteDataSave.classList.add("note_data_input_active");
+     
+  
+      noteDataEdit.classList.add("note_data_input_hidden");
+      
+      noteDeleteBtn.classList.remove("note_data_input_hidden");
+
+     //  console.log(storedTitleValue);
+     //  console.log(storedBodyValue);
+   
+    // toolBar.classList.remove('note_data_input_hidden');
+     
+    bold.classList.remove('note_data_input_hidden');
+    italic.classList.remove('note_data_input_hidden');
+    underline.classList.remove('note_data_input_hidden');
+    strikethrough.classList.remove('note_data_input_hidden');
+
+  }noteDataEdit.addEventListener('click', edit);
+  
+  function boldFunction(){ 
+    noteDataBody.focus();
+    document.execCommand('bold', false, null);
+    bold.classList.toggle("active_class");
+
+  }bold.addEventListener('click', boldFunction);
+ 
+  function italicFunction(){ 
+    noteDataBody.focus();
+    document.execCommand('italic', false, null);
+    italic.classList.toggle("active_class");
+    
+  }italic.addEventListener('click', italicFunction);
+ 
+  function underlineFunction(){ 
+    noteDataBody.focus();
+    document.execCommand('underline', false, null);
+    underline.classList.toggle("active_class");
+    
+  }underline.addEventListener('click', underlineFunction);
+ 
+  function strikethroughFunction(){ 
+    noteDataBody.focus();
+    document.execCommand('strikethrough', false, null);
+    strikethrough.classList.toggle("active_class");
+  }strikethrough.addEventListener('click', strikethroughFunction);
+ 
+ 
+  /*
+    function boldFunction(){ 
+
+   
+
+  
+    document.execCommand('bold', false, null);
+    // const boldText = document.createElement('b');
+
+    bold.classList.remove("note_data_input_hidden");
+    
+   
+
+  }bold.addEventListener('click', boldFunction);
+ 
+  */
     
 function saveNote(){
-    testArray = JSON.parse(localStorage.getItem('allNotes')); // parse storage beforehand
+  testArray = JSON.parse(localStorage.getItem('allNotes')); // parse storage beforehand
 
-    let noteDataTitleSave = noteDataTitleInput.value;
-    let noteDataBodySave = noteDataBodyInput.value;
+ // let noteDataTitleSave = noteDataTitle.textContent;   // noteDataTitleInput.value;
+//  let noteDataBodySave = noteDataBody.textContent;
 
-    noteDataSave.classList.add("note_data_input_hidden");//button
-    noteDataSave.classList.remove("note_data_input_active");
+  noteDataSave.classList.add("note_data_input_hidden");//button
+  noteDataSave.classList.remove("note_data_input_active");
 
-    noteDataTitle.textContent= noteDataTitleSave;
-    noteDataBody.textContent= noteDataBodySave;
-    noteDataTitle.classList.remove("note_data_input_hidden");
-    noteDataBody.classList.remove("note_data_input_hidden");
-
-
-    noteDataTitleInput.classList.remove("note_data_input_active");
-    noteDataBodyInput.classList.remove("note_data_input_active");
-    noteDataTitleInput.classList.add("note_data_input_hidden");
-    noteDataBodyInput.classList.add("note_data_input_hidden");
-    
-    noteDataEdit.classList.remove("note_data_input_hidden");
+ // noteDataTitle.textContent= noteDataTitleSave;
+ // noteDataBody.textContent= noteDataBodySave;
+  noteDataTitle.classList.remove("note_data_input_hidden");
+  noteDataBody.classList.remove("note_data_input_hidden");
 
 
-
-    
-    let findNoteId= noteData.id; 
-
-    const testArrayIndex = testArray.findIndex(noteData => noteData.id === findNoteId);
-
+ // noteDataTitleInput.classList.remove("note_data_input_active");
+  //noteDataBodyInput.classList.remove("note_data_input_active");
+  //noteDataTitleInput.classList.add("note_data_input_hidden");
+  //noteDataBodyInput.classList.add("note_data_input_hidden");
   
+  noteDataEdit.classList.remove("note_data_input_hidden");
 
-    if (testArrayIndex !== findNoteId) {
-       
-        testArray[testArrayIndex].title = noteDataTitle.textContent;
-        testArray[testArrayIndex].body = noteDataBody.textContent;
-       // console.log("todo changed!"); 
-    }
 
-    console.log(testArray);
-    localStorage.setItem('allNotes', JSON.stringify(testArray)); // stringify and send data back to storage
+  noteDataTitle.setAttribute("contenteditable","false");
+  noteDataBody.setAttribute("contenteditable","false");
+  
+  
+  let findNoteId= noteData.id; 
+
+  const testArrayIndex = testArray.findIndex(noteData => noteData.id === findNoteId);
+
+
+
+  if (testArrayIndex !== findNoteId) {
+     
+      testArray[testArrayIndex].title = noteDataTitle.textContent;
+      testArray[testArrayIndex].body = noteDataBody.textContent;
+      testArray[testArrayIndex].htmlMarkup = noteDataBody.innerHTML;
+     // console.log("todo changed!"); 
+  }
+
+  toolBar.classList.add('note_data_input_hidden');
+
+ 
+  
+  localStorage.setItem('allNotes', JSON.stringify(testArray)); // stringify and send data back to storage
+  console.log(testArray);
+  console.log(localStorage);
+  console.log(noteDataTitle.textContent);
+  console.log(noteDataBody.textContent);
 }noteDataSave.addEventListener('click', saveNote);
+   
+    
 
-
+/* 
     function selectNote(){
   let timer = setTimeout(console.log("press and held!", 4000));
   noteSelected.classList.remove("note_data_input_hidden");
@@ -244,30 +378,28 @@ function saveNote(){
     }
 
    }noteContainer.addEventListener('click', selectNote);
-
-    function deleteNote(){
+*/
+  function deleteNote(){
     testArray = JSON.parse(localStorage.getItem('allNotes')); // parse storage beforehand
 
-    let findNoteId= notes.id; 
+    let findNoteId= noteData.id; 
 
-    const testArrayIndex = testArray.findIndex(notes => notes.id === findNoteId);
+    const testArrayIndex = testArray.findIndex(noteData => noteData.id === findNoteId);
 
-  
+
 
     if (testArrayIndex !== findNoteId) {
-       
+      
         testArray.splice(testArrayIndex, 1);
         noteSection.removeChild(noteContainer);
         localStorage.setItem('allNotes', JSON.stringify(testArray)); 
-       
+      
         console.log(localStorage);
         console.log(testArray);
     } 
+  }noteDeleteBtn.addEventListener('click', deleteNote);
 
-    
-   }noteDeleteBtn.addEventListener('click', deleteNote);
-  
-  });
+});
 
  
 
@@ -291,34 +423,63 @@ function addToLocal(){
         testArray = [];
     }
    
+    
+
+  
+   
+   //className.titleClass = noteDataTitle.className;
     /* the notes object stores the two values */
     let notes = { 
         id:  Math.floor(Math.random() * 100000),
         title: key.value,
-        body: value.value
+        body: value.value,
+        //"markup": markup.innerHTML
+       // bhtml: markup.className
+       // bodyMarkup: bodyHTML.value
+    /* idea 1 - I might can store the outerhtml of title and body,
+         so they can keep potential class styling and text formatting options (bolding, underlining, text-positioning etc.).
+         Then, when I edit, I can add a function to take the...
+
+
+        idea 2 -  I might want to store the outerhtml as the key and title values instead
+        
+         
+    */
     }
 
 
- 
-    localStorage.setItem('note', JSON.stringify(notes)); 
+ //IMPORTANT NOTE: USE A CONTENT EDITABLE DIV INSTEAD OF A TEXTAREA OR INPUT FIELD. 
+ // AND CHANGE THE ADD AND EDIT FUNCTION SO THAT IN "VIEWING MODE" THE DIV IS SIMPLY UNEDITABLE, BUT WHEN CLICKING ON THE DIV,
+ // IT BECOMES EDITABLE.
+ // EXPAND ON THE ADD FUNCTION BY DETECTING IF AN IMG HAS BEEN ADDED, AND IF SO CONVERT IT INTO A BASE 64STRING(I THINK?), AND SETTING IT TO AN PROPERTY CALLED "NOTE-IMAGES"
+ // A POSSIBLE SOLUTION MIGHT BE TO CREATE AN ARRAY FOR IMGS IN THE NOTES OBJECT, (BETTER TO ASSUME SOMEONE'LL HAVE MULTIPLE IMGS INSTEAD OF ONE).  
+
+ // MAKE A "CANVAS MODE" AS WELL FOR DRAWING CAPACITY, LATER ON THOUGH.
+
+    //localStorage.setItem('note', JSON.stringify(notes)); 
+
+    // might wanna change the 'note' key to 'last_added_note' because it saves the data of the last added note.;
    
    let noteContainer = document.createElement("div");
     noteContainer.classList.add("note_container");
 
 
    
-   let selectedBtnWrap = document.createElement("div");
-    selectedBtnWrap.classList.add("selected_btn_wrap");    
+   let selectedBtnTitleWrap = document.createElement("div");
+   selectedBtnTitleWrap.classList.add("selected_btn_wrap");    
 
+   /* 
    let noteSelected = document.createElement("input");
     noteSelected.type = 'checkbox';
     noteSelected.classList.add("note_data_input_hidden");
+*/
+
+   
 
 
-    selectedBtnWrap.append(noteSelected);
 
-
-  let noteDataTitle = document.createElement("textarea");
+    /*
+      let noteDataTitle = document.createElement("textarea");
     noteDataTitle.classList.add("title_stylings");
     noteDataTitle.setAttribute("wrap","off");
     noteDataTitle.setAttribute("maxlength","40");
@@ -326,7 +487,17 @@ function addToLocal(){
     noteDataTitle.setAttribute("rows","1");
     noteDataTitle.innerHTML = notes.title;
 
+    */
+    let noteDataTitle = document.createElement("p");
+    noteDataTitle.classList.add("title_stylings");
+  //  noteDataTitle.setAttribute("contenteditable","true");
+    noteDataTitle.innerHTML = notes.title;
+   
+   
+  // noteDataTitle.outerHTML = notes.titleMarkup;
+   
 
+    selectedBtnTitleWrap.append(/*noteSelected,*/ noteDataTitle);
     /*
     let noteDataTitle = document.createElement("p");
     noteDataTitle.innerHTML = notes.title;
@@ -339,34 +510,57 @@ function addToLocal(){
   
     // end 
 
-   let noteDataBody = document.createElement("textarea");
-       noteDataBody.classList.add("content_stylings");
-       noteDataBody.innerHTML = notes.body;
+      let noteDataBody = document.createElement("div");
+          noteDataBody.classList.add("content_stylings");
+        //  noteDataBody.setAttribute("contenteditable","true");
+          noteDataBody.innerHTML = notes.body;
+      
+           markup = noteDataBody.innerHTML;
 
 
-  let  noteDataTitleInput = document.createElement("input");
-    //noteDataTitleInput.textContent = notes.title;
-    noteDataTitleInput.type = "text";
-    noteDataTitleInput.classList.add("note_data_input_hidden");
+      let  noteDataTitleInput = document.createElement("input");
+        //noteDataTitleInput.textContent = notes.title;
+        noteDataTitleInput.type = "text";
+        noteDataTitleInput.classList.add("note_data_input_hidden");
 
-   let noteDataBodyInput = document.createElement("input");
-   // noteDataBodyInput.textContent = notes.body;
-    noteDataBodyInput.type = "text";
-    noteDataBodyInput.classList.add("note_data_input_hidden");
+      let noteDataBodyInput = document.createElement("input");
+          // noteDataBodyInput.textContent = notes.body;
+          noteDataBodyInput.type = "text";
+          noteDataBodyInput.classList.add("note_data_input_hidden");
 
-  let noteDataEdit = document.createElement("button");
-    noteDataEdit.classList.add("edit_btn");
-    noteDataEdit.textContent = "Edit";
+      let noteDataEdit = document.createElement("button");
+          noteDataEdit.classList.add("edit_btn");
+          noteDataEdit.textContent = "Edit";
 
-   let noteDeleteBtn = document.createElement("button");
-    noteDeleteBtn.textContent = 'delete';
-    noteDeleteBtn.classList.add("note_data_input_hidden");
+      let noteDeleteBtn = document.createElement("button");
+          noteDeleteBtn.textContent = 'Delete Note';
+         
+
+    
+    let toolBar = document.createElement('div');
+    toolBar.classList.add('note_data_input_hidden');
+ 
+    let bold = document.createElement('button');
+    bold.textContent= "𝐁";
+  
+
+    let italic = document.createElement('button');    
+        italic.textContent= "I";
+
+    let underline = document.createElement('button');       
+        underline.textContent= "U";
+
+    let strikethrough = document.createElement('button');
+        strikethrough.textContent= "S";
+    
+
+    toolBar.append(bold, italic, underline, strikethrough);
 
    let noteDataSave = document.createElement("button");
     noteDataSave.classList.add("note_data_input_hidden");
     noteDataSave.textContent = "Save";
 
-    noteContainer.append(selectedBtnWrap, noteDataTitle, noteDataBody, noteDataTitleInput, noteDataBodyInput, noteDataEdit, noteDeleteBtn, noteDataSave);
+    noteContainer.append(selectedBtnTitleWrap, noteDataBody, noteDataTitleInput, noteDataBodyInput, toolBar, noteDataEdit, noteDeleteBtn, noteDataSave);
 
     noteSection.append(noteContainer);
 
@@ -377,18 +571,78 @@ function addToLocal(){
     key.value = "";
     value.value = "";
 
-    testArray.push(notes);
+    notes.htmlMarkup = markup;
 
-    localStorage.setItem('allNotes', JSON.stringify(testArray)); 
+    testArray.push(notes);
+   
+
+    localStorage.setItem('allNotes', JSON.stringify(testArray));
+    
+    //localStorage.setItem('allNotes', JSON.stringify(testArray.notes.titleMarkup.outerHTML));
+   // localStorage.setItem('allNotes', JSON.stringify(testArray.notes.bodyMarkup.outerHTML));    
 
     console.log(JSON.parse(localStorage.getItem('allNotes'))); // gets 'allNotes' key, parses it, and logs it out.
 
 
-    console.log(noteDataTitle.value);
-    console.log(noteDataBody.value);
+    console.log(noteDataTitle.textContent);
+    console.log(noteDataBody.textContent);
+
+ 
+/* 
+   // saving text formatting progress notes completion: 1/4.
+
+   // test 1-can save formatted text to localstorage
+   // test2 - create a random array
+    let randomDiv = document.createElement('div');
+    randomDiv.classList.add('example') 
+   //   randomHTML.classList.add('example');
+
+  let childElement = document.createElement('p'); 
+  childElement.setAttribute("contenteditable","true");
+
+    childElement.classList.add('blah'); 
+
+    childElement.textContent = childElement.innerHTML;
+
+  let saveRandomButton = document.createElement('button'); 
+  saveRandomButton.textContent='saveRandom';
 
 
+  let boldRandom = document.createElement('button'); 
+  boldRandom.textContent='B';
+  
+  randomDiv.append(childElement, saveRandomButton, boldRandom);
 
+  function boldRandomFunction(){ 
+
+
+  
+    document.execCommand('bold', false, null);
+    // const boldText = document.createElement('b');
+
+    boldRandom.classList.toggle("active_class");
+    
+  
+
+  }boldRandom.addEventListener('click', boldRandomFunction);
+
+  noteSection.append(randomDiv);
+
+
+    localStorage.setItem('example', JSON.stringify(randomDiv.innerHTML));
+
+    console.log(localStorage.getItem('example'));
+
+    function saverandom(){
+      JSON.parse(localStorage.getItem('example')); // parse storage beforehand
+  
+     
+      
+      localStorage.setItem('example', JSON.stringify(randomDiv.innerHTML)); // stringify and send data back to storage
+      console.log(localStorage);
+  
+    }saveRandomButton.addEventListener('click', saverandom);
+    */
 
     function edit(){ 
 
@@ -409,6 +663,150 @@ function addToLocal(){
            // console.log("todo changed!"); 
         }
           */
+       
+
+       
+          
+
+        let storedTitleValue = noteDataTitle.innerHTML;
+        let storedBodyValue = noteDataBody.innerHTML;
+    
+       // noteDataTitle.classList.add("note_data_input_hidden");
+      //  noteDataBody.classList.add("note_data_input_hidden");
+    
+      noteDataTitle.setAttribute("contenteditable","true");
+      noteDataBody.setAttribute("contenteditable","true");
+
+
+       // noteDataTitleInput.classList.remove("note_data_input_hidden");
+        noteDataTitle.value = storedTitleValue;
+    
+    
+       // noteDataBodyInput.classList.remove("note_data_input_hidden");
+        noteDataBody.value = storedBodyValue;
+    
+        noteDataSave.classList.add("note_data_input_active");
+       
+    
+        noteDataEdit.classList.add("note_data_input_hidden");
+        
+        noteDeleteBtn.classList.remove("note_data_input_hidden");
+
+       //  console.log(storedTitleValue);
+       //  console.log(storedBodyValue);
+     
+      // toolBar.classList.remove('note_data_input_hidden');
+
+      toolBar.classList.remove('note_data_input_hidden');
+ 
+  
+       
+    }noteDataEdit.addEventListener('click', edit);
+    
+    
+    function boldFunction(){ 
+      noteDataBody.focus();
+      document.execCommand('bold', false, null);
+      bold.classList.toggle("active_class");
+  
+    }bold.addEventListener('click', boldFunction);
+   
+    function italicFunction(){ 
+      noteDataBody.focus();
+      document.execCommand('italic', false, null);
+      italic.classList.toggle("active_class");
+      
+    }italic.addEventListener('click', italicFunction);
+   
+    function underlineFunction(){ 
+      noteDataBody.focus();
+      document.execCommand('underline', false, null);
+      underline.classList.toggle("active_class");
+      
+    }underline.addEventListener('click', underlineFunction);
+   
+    function strikethroughFunction(){ 
+      noteDataBody.focus();
+      document.execCommand('strikethrough', false, null);
+      strikethrough.classList.toggle("active_class");
+    }strikethrough.addEventListener('click', strikethroughFunction);
+   
+    
+
+    /* function edit v2
+       function edit(){ 
+
+        /*
+        let storedTitleValue =  noteDataTitle.innerHTML;
+        let storedBodyValue =  noteDataBody.innerHTML;
+       
+        let findNoteId= notes.id; 
+    
+        const testArrayIndex = testArray.findIndex(notes => notes.id === findNoteId);
+    
+      
+    
+        if (testArrayIndex !== findNoteId) {
+           
+            testArray[testArrayIndex].title = noteDataTitle.textContent;
+            testArray[testArrayIndex].body = noteDataBody.textContent;
+           // console.log("todo changed!"); 
+        }
+          */
+       
+
+        /*
+            change edit() function to use
+        
+
+            let storedTitleValue =  noteDataTitleInput.innerHTML;
+            let storedBodyValue =  noteDataBodyInput.innerHTML;
+        
+            noteDataTitle.classList.add("note_data_input_hidden");
+            noteDataBody.classList.add("note_data_input_hidden");
+        
+        
+            noteDataTitleInput.classList.remove("note_data_input_hidden");
+            noteDataTitleInput.value = storedTitleValue;
+        
+        
+            noteDataBodyInput.classList.remove("note_data_input_hidden");
+            noteDataBodyInput.value = storedBodyValue;
+        
+            noteDataSave.classList.add("note_data_input_active");
+           
+        
+            noteDataEdit.classList.add("note_data_input_hidden");
+             
+             console.log(storedTitleValue);
+             console.log(storedBodyValue);
+         
+         
+           
+        }noteDataEdit.addEventListener('click', edit);
+        
+    */
+
+    /* function edit v1
+      function edit(){ 
+
+        /*
+        let storedTitleValue =  noteDataTitle.innerHTML;
+        let storedBodyValue =  noteDataBody.innerHTML;
+       
+        let findNoteId= notes.id; 
+    
+        const testArrayIndex = testArray.findIndex(notes => notes.id === findNoteId);
+    
+      
+    
+        if (testArrayIndex !== findNoteId) {
+           
+            testArray[testArrayIndex].title = noteDataTitle.textContent;
+            testArray[testArrayIndex].body = noteDataBody.textContent;
+           // console.log("todo changed!"); 
+        }
+          
        
         let storedTitleValue =  noteDataTitleInput.innerHTML;
         let storedBodyValue =  noteDataBodyInput.innerHTML;
@@ -436,7 +834,11 @@ function addToLocal(){
        
     }noteDataEdit.addEventListener('click', edit);
     
-/*
+    */
+
+
+
+    /*
     function editFunction(){
         let todoItemSaved = todoItem.innerHTML; // saves the initial value of the to-do item.
       //  let todoIteminput = document.createElement("input"); // creates an input element
@@ -499,6 +901,67 @@ function addToLocal(){
 function saveNote(){
     testArray = JSON.parse(localStorage.getItem('allNotes')); // parse storage beforehand
 
+   // let noteDataTitleSave = noteDataTitle.textContent;   // noteDataTitleInput.value;
+   // let noteDataBodySave = noteDataBody.textContent;
+
+    noteDataSave.classList.add("note_data_input_hidden");//button
+    noteDataSave.classList.remove("note_data_input_active");
+
+    //noteDataTitle.textContent= noteDataTitleSave;
+    //noteDataBody.textContent= noteDataBodySave;
+
+    noteDataTitle.classList.remove("note_data_input_hidden");
+    noteDataBody.classList.remove("note_data_input_hidden");
+
+
+   // noteDataTitleInput.classList.remove("note_data_input_active");
+    //noteDataBodyInput.classList.remove("note_data_input_active");
+    //noteDataTitleInput.classList.add("note_data_input_hidden");
+    //noteDataBodyInput.classList.add("note_data_input_hidden");
+    
+    noteDataEdit.classList.remove("note_data_input_hidden");
+
+
+    noteDataTitle.setAttribute("contenteditable","false");
+    noteDataBody.setAttribute("contenteditable","false");
+    
+    let findNoteId= notes.id; 
+
+    const testArrayIndex = testArray.findIndex(notes => notes.id === findNoteId);
+
+  
+
+    if (testArrayIndex !== findNoteId) {
+       
+        testArray[testArrayIndex].title = noteDataTitle.textContent;
+        testArray[testArrayIndex].body = noteDataBody.textContent;
+        testArray[testArrayIndex].htmlMarkup = noteDataBody.innerHTML;
+       // console.log("todo changed!"); 
+    }
+
+    
+
+    
+    localStorage.setItem('allNotes', JSON.stringify(testArray)); // stringify and send data back to storage
+   
+    // localStorage.setItem('example', JSON.stringify(randomDiv.innerHTML));
+    console.log(testArray);
+    console.log(localStorage);
+    console.log(noteDataTitle.textContent);
+    console.log(noteDataBody.textContent);
+
+    toolBar.classList.add('note_data_input_hidden');
+ 
+    
+
+}noteDataSave.addEventListener('click', saveNote);
+   
+
+/* v1
+
+function saveNote(){
+    testArray = JSON.parse(localStorage.getItem('allNotes')); // parse storage beforehand
+
     let noteDataTitleSave = noteDataTitleInput.value;
     let noteDataBodySave = noteDataBodyInput.value;
 
@@ -537,17 +1000,24 @@ function saveNote(){
     console.log(testArray);
     localStorage.setItem('allNotes', JSON.stringify(testArray)); // stringify and send data back to storage
 }noteDataSave.addEventListener('click', saveNote);
-   
+  
 
+*/
+
+/* 
 function selectNote(){
-  let timer = setTimeout(console.log("press and held!", 4000));
-  noteSelected.classList.remove("note_data_input_hidden");
+  
+ // noteSelected.classList.remove("note_data_input_hidden");
 
     if (noteSelected.checked = true){
-        noteDeleteBtn.classList.remove("note_data_input_hidden");
+        noteDeleteBtn.classList.toggle("note_data_input_hidden");
+        noteSelected.classList.toggle("note_data_input_hidden");
     }
+ 
+    setTimeout(console.log("press and held!", 5000));
 
-}noteContainer.addEventListener('click', selectNote);
+}noteContainer.addEventListener('mousedown', selectNote);
+*/
 
 function deleteNote(){
     testArray = JSON.parse(localStorage.getItem('allNotes')); // parse storage beforehand
@@ -575,11 +1045,14 @@ function deleteNote(){
 
 
 
+/*
+
+
+*/
 
    
 
-//localStorage.clear();
-
+//localStorage.clear()
 /*make 2 functions*/
 // 1. function for editing notes that also updates local storage.
 // 2. function for deleting notes, both from the dom and from localstorage.
